@@ -1,8 +1,8 @@
 # k8s-capstone-deploy
 
-![Repo Size](https://img.shields.io/github/repo-size/VargasCardona/k8s-capstone-deploy)
-![License](https://img.shields.io/github/license/VargasCardona/k8s-capstone-deploy)
-![Last Commit](https://img.shields.io/github/last-commit/VargasCardona/k8s-capstone-deploy)
+![Repo Size](https://img.shields.io/github/repo-size/VargasCardona/k8s-capstone-deploy?style=for-the-badge)
+![License](https://img.shields.io/github/license/VargasCardona/k8s-capstone-deploy?style=for-the-badge)
+![Last Commit](https://img.shields.io/github/last-commit/VargasCardona/k8s-capstone-deploy?style=for-the-badge)
 
 
 This repository contains the final deployment setup for a Kubernetes-based application. It is designed to demonstrate a complete, production-ready environment with scalable microservices, efficient resource management, and secure configurations.
