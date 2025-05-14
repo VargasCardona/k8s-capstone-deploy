@@ -1,0 +1,37 @@
+# Gradle
+.gradle
+build/
+
+# Logs
+*.log
+logs/
+*.pid
+
+# IDEs
+*.iml
+.idea/
+*.classpath
+*.project
+*.settings/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile*
+docker-compose.yml
+
+# Git
+.git
+.gitignore
+
+# Test coverage
+jacoco.exec
+
+# Misc
+.env
+
+# Backups
+db_backups/
