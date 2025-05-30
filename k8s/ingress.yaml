@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: movies-app-ingress
+  namespace: movies-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: movies-app.local
+    http:
+      paths:
+      - path: /create(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: create-microservice-service
+            port:
+              number: 80
+      - path: /read(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: read-microservice-service
+            port:
+              number: 80
+      - path: /update(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: update-microservice-service
+            port:
+              number: 80
+      - path: /delete(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: delete-microservice-service
+            port:
+              number: 80

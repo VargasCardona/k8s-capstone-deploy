@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: read-microservice-service
+  namespace: movies-app
+spec:
+  selector:
+    app: read-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
+  type: ClusterIP
