@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: create-microservice-service
+  namespace: movies-app
+spec:
+  selector:
+    app: create-microservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP

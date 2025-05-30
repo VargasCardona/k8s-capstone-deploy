@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: read-microservice-deployment
+  namespace: movies-app
+  labels:
+    app: read-microservice
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: read-microservice
+  template:
+    metadata:
+      labels:
+        app: read-microservice
+    spec:
+      containers:
+      - name: read-microservice
+        image: vargascardona/k8s-capstone-read:latest
+        ports:
+        - containerPort: 5001
+        env:
+        - name: SERVER_PORT
+          value: "5001"
+        - name: MARIADB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: create-microservice-config
+              key: MARIADB_HOST
+        - name: MARIADB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: create-microservice-config
+              key: MARIADB_PORT
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: create-microservice-config
+              key: MYSQL_DATABASE
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MYSQL_ROOT_PASSWORD
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
