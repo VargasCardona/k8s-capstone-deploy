@@ -1,10 +1,10 @@
 package microservice.movies.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import microservice.movies.dtos.SaveMovieDTO;
-import microservice.movies.dtos.UpdateMovieDTO;
-import microservice.movies.model.Movie;
-import microservice.movies.repository.MovieRepository;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import microservice.movies.dtos.UpdateMovieDTO;
+import microservice.movies.model.Movie;
+import microservice.movies.repository.MovieRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,7 +40,6 @@ public class MovieControllerIntegrationTest {
     private MovieRepository movieRepository;
 
     private Movie testMovie;
-    private SaveMovieDTO saveMovieDTO;
     private UpdateMovieDTO updateMovieDTO;
 
     @BeforeEach
@@ -62,15 +58,6 @@ public class MovieControllerIntegrationTest {
 
         testMovie = movieRepository.save(testMovie);
 
-        saveMovieDTO = new SaveMovieDTO(
-                "The Prestige",
-                2006,
-                "Christopher Nolan",
-                "Drama",
-                130,
-                8.5
-        );
-
         updateMovieDTO = new UpdateMovieDTO(
                 testMovie.getId(),
                 "Interstellar Updated",
@@ -80,46 +67,6 @@ public class MovieControllerIntegrationTest {
                 169,
                 8.7
         );
-    }
-
-    @Test
-    void getAllMovies_ShouldReturnAllMovies() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/movies")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title", is("Interstellar")))
-                .andDo(print());
-    }
-
-    @Test
-    void getMovieById_WhenMovieExists_ShouldReturnMovie() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/movies/{id}", testMovie.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title", is("Interstellar")))
-                .andDo(print());
-    }
-
-    @Test
-    void getMovieById_WhenMovieNotExists_ShouldReturnNotFound() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/movies/{id}", 99999L)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound())
-                .andDo(print());
-    }
-
-    @Test
-    void createMovie_ShouldReturnCreatedMovie() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(saveMovieDTO)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.title", is("The Prestige")))
-                .andDo(print());
-
-        List<Movie> movies = movieRepository.findAll();
-        assertEquals(2, movies.size());
     }
 
     @Test
@@ -151,13 +98,4 @@ public class MovieControllerIntegrationTest {
                 .andDo(print());
     }
 
-    @Test
-    void deleteMovie_ShouldDeleteMovieAndReturnNoContent() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/movies/{id}", testMovie.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent())
-                .andDo(print());
-
-        assertFalse(movieRepository.findById(testMovie.getId()).isPresent());
-    }
 }
