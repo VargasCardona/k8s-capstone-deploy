@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: update-microservice-rs
+  namespace: movies-app
+  labels:
+    app: update-microservice
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: update-microservice
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: update-microservice
+        tier: backend
+    spec:
+      containers:
+      - name: update-microservice
+        image: vargascardona/k8s-capstone-update:latest
+        ports:
+        - containerPort: 5002
+        env:
+        - name: SERVER_PORT
+          value: "5002"
+        - name: MARIADB_HOST
+          value: "mariadb-service"
+        - name: MARIADB_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: "movies_db"
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MYSQL_ROOT_PASSWORD
+
