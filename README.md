@@ -64,6 +64,12 @@ Each subdirectory (`create`, `read`, `update`, `delete`) contains:
 
 ![Diagrama de infraestructura(1)](https://github.com/user-attachments/assets/5b2fc6d2-0174-4594-bbaa-0cdf7851ef39)
 
+## JaCoCo Unit Tests
+![JACOCO](https://github.com/user-attachments/assets/c5c524b2-1014-42ba-8fcc-2676d9784972)
+
+![JACOCO1](https://github.com/user-attachments/assets/74123842-f019-4012-9e97-a632a7e0f144)
+
+![JACOCO2](https://github.com/user-attachments/assets/d06cb12f-53be-4e05-8e52-bcedc3d85a26)
 
 ## Deployment Steps
 
