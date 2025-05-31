@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: delete-microservice-rs
+  namespace: movies-app
+  labels:
+    app: delete-microservice
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: delete-microservice
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: delete-microservice
+        tier: backend
+    spec:
+      containers:
+      - name: delete-microservice
+        image: vargascardona/k8s-capstone-delete:latest
+        ports:
+        - containerPort: 5003
+        env:
+        - name: SERVER_PORT
+          value: "5003"
+        - name: MARIADB_HOST
+          value: "mariadb-service"
+        - name: MARIADB_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: "movies_db"
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MYSQL_ROOT_PASSWORD
+
+
